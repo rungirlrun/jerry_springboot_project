@@ -9,9 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.mysite.sbb.answer.Answer;
+import com.mysite.sbb.user.SiteUser;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,4 +37,7 @@ public class Question {
 	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<Answer> answerList;
+	
+	@ManyToOne													// 한 명의 사용자가 여러개의 질문글을 작성할 수 있음
+	private SiteUser author;									// 이 컬럼에는 site_user의 id값이 자동 입력됨
 }
