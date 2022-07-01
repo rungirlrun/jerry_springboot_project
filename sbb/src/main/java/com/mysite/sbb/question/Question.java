@@ -35,6 +35,8 @@ public class Question {
 	
 	private LocalDateTime createDate;
 	
+	private LocalDateTime modifyDate;							// 수정일시 컬럼 추가
+	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<Answer> answerList;
 	

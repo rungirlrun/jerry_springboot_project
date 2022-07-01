@@ -28,6 +28,8 @@ public class Answer {
 	
 	private LocalDateTime createDate;
 	
+	private LocalDateTime modifyDate;					// 수정일시 컬럼 추가
+	
 	@ManyToOne											// @ManyToOne 애너테이션을 설정하면 Answer 엔티티의 question 속성과 Question 엔티티가 서로 연결. 즉 Answer과 Question간의 Foreign 관계 성립
 	private Question question;
 	
