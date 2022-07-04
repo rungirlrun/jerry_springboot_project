@@ -2,6 +2,7 @@ package com.mysite.sbb.question;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -42,4 +44,7 @@ public class Question {
 	
 	@ManyToOne													// 한 명의 사용자가 여러개의 질문글을 작성할 수 있음
 	private SiteUser author;									// 이 컬럼에는 site_user의 id값이 자동 입력됨
+	
+	@ManyToMany													// 질문 하나에 여러 사람이 추천할 수 있고, 한 사람은 여러개의 질문을 추천할 수 있음. 이럴땐 대등한 관계 ManyToMany를 써야함. 
+	Set<SiteUser> voter;										// List가 아닌 Set인 이유 : 한 사람 당 한 번만 추천할 수 있으므로
 }

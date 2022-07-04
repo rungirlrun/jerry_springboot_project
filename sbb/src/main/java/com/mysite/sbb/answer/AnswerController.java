@@ -84,4 +84,13 @@ public class AnswerController {
 		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
 	}
 
+	// 답변 추천
+	@PreAuthorize("isAuthenticated()")				// 로그인이 필요한 메서드. 로그인 안되어 있으면 로그인 페이지로 이동시킴
+	@GetMapping("/vote/{id}")
+	public String answerVote(Principal principal, @PathVariable("id") Integer id) {
+		Answer answer = this.answerService.getAnswer(id);
+		SiteUser siteUser = this.userService.getUser(principal.getName());
+		this.answerService.vote(answer, siteUser);
+		return String.format("redirect:/question/detail/%s",answer.getQuestion().getId());
+	}
 }
