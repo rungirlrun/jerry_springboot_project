@@ -50,11 +50,13 @@
 						<span>이전</span>
 					</a>
 				</li>
+
 				<li class="page-item" th:each="page :${#numbers.sequence(0, paging.totalPages-1)}" 
-				th:if="${page >= paging.number-5 and page <= paging.number+5}"
+				th:if="${page >= paging.number-3 and page <= paging.number+3}"
 				th:classappend="${page == paging.number} ? 'active'">
 					<a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
 				</li>
+				
 				<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
 					<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
 						<span>다음</span>
