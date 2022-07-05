@@ -4,7 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.mysite.sbb.answer.AnswerService;
+import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionService;
+import com.mysite.sbb.user.SiteUser;
+import com.mysite.sbb.user.UserService;
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -12,12 +16,19 @@ class SbbApplicationTests {
 	@Autowired
 	private QuestionService questionService;
 	
+	@Autowired
+	private AnswerService answerService;
+
+	@Autowired
+	private UserService userService;
+	
 	@Test
 	void contextLoads() {
 		for (int i = 1; i <= 300; i++) {
-			String subject = String.format("테스트 데이터입니다. :[%03d]", i);
+			Question question = this.questionService.getQuestion(307);
+			SiteUser siteUser = this.userService.getUser("admin");
 			String content = "내용없음";
-			this.questionService.create(subject, content, null);
+			this.answerService.create(question, content, siteUser);
 		}
 	}
 

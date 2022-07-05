@@ -1,8 +1,15 @@
 package com.mysite.sbb.answer;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.mysite.sbb.DataNotFoundException;
@@ -25,6 +32,15 @@ public class AnswerService {
 		answer.setAuthor(author);
 		this.answerRepository.save(answer);
 		return answer;
+	}
+	
+	// 답변 페이징 처리 및 정렬
+	public Page<Answer> getAnswerList(Integer id, int page)
+	{	
+		List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));									// 생성일자 순으로 정렬
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));				// page 번호를 param으로 받는다. Pageable 객체를 반환.
+		return this.answerRepository.findByQuestionId(id, pageable);
 	}
 	
 	public Answer getAnswer(Integer id) {

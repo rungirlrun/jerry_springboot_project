@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.answer.AnswerForm;
+import com.mysite.sbb.answer.AnswerService;
 import com.mysite.sbb.user.SiteUser;
 import com.mysite.sbb.user.UserService;
 
@@ -31,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class QuestionController {
 
 	public final QuestionService questionService;
+	public final AnswerService answerService;
 	public final UserService userService;
 	
 	@RequestMapping("/list")
@@ -44,9 +47,13 @@ public class QuestionController {
 	}
 	
 	@RequestMapping("/detail/{id}")
-	public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
+	public String detail(Model model, 
+			@PathVariable("id") Integer id, AnswerForm answerForm, 
+			@RequestParam(value="page", defaultValue="0") int page) {
 		Question question = this.questionService.getQuestion(id);
+		Page<Answer> answerPaging = this.answerService.getAnswerList(id, page);				// answerList는 페이징처리하여 별도로 조회하기
 		model.addAttribute("question", question);
+		model.addAttribute("answerPaging", answerPaging);
 		return "question_detail";
 	}
 	
