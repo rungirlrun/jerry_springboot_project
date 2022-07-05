@@ -3,7 +3,6 @@ package com.mysite.sbb.question;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,11 +21,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity							
-// @Entity 애너테이션을 적용해야 JPA가 엔티티로 인식
+@Entity								// 모델 또는 도메인 모델이라고 부르기도 함. 여기선 이것을 구분하지 않고 테이블과 매핑되는 클래스를 엔티티라 할 거임.
 public class Question {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)			// @GeneratedValue : sequence처럼 1씩 자동으로 증가. / GenerationType.IDENTITY는 해당 컬럼만의 독립적인 시퀀스를 생성하여 번호를 증가시킬 때 사용
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(length = 200)
