@@ -24,7 +24,7 @@ public class CommentService {
 			return comment.get();
 		} else {
 			throw new DataNotFoundException("comment not found");
-		}
+		} 
 	}
 	
 	public Comment createQuestionComment(Question question, String content, SiteUser author) {
