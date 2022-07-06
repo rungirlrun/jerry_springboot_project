@@ -26,7 +26,7 @@ public class CommentService {
 			throw new DataNotFoundException("comment not found");
 		} 
 	}
-	
+	 
 	public Comment createQuestionComment(Question question, String content, SiteUser author) {
 		Comment comment = new Comment();
 		comment.setContent(content);

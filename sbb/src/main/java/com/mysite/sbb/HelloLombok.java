@@ -2,12 +2,6 @@ package com.mysite.sbb;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
-import lombok.Setter;
-
-@Getter
-@RequiredArgsConstructor
-=======
 
 /*
  * @author juwonlee
@@ -19,26 +13,17 @@ import lombok.Setter;
 
 @RequiredArgsConstructor
 @Getter
->>>>>>> 37dd8869ddfce3063550505e618af6f663213bee
+
 public class HelloLombok {
 
 	private final String hello;
 	private final int lombok;
 	
 	public static void main(String[] args) {
-<<<<<<< HEAD
-		HelloLombok helloLombok = new HelloLombok("헬로", 5);
-		
-		System.out.println(helloLombok.getHello());
-		System.out.println(helloLombok.getLombok());
-	}
-=======
 		// TODO Auto-generated method stub
 		HelloLombok helloLombok = new HelloLombok("헬로", 5);
 
 		System.out.println(helloLombok.getHello());
 		System.out.println(helloLombok.getLombok());
 	}
-
->>>>>>> 37dd8869ddfce3063550505e618af6f663213bee
 }
