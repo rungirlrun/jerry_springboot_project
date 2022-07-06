@@ -19,9 +19,33 @@
 				</div>
 				<div class="my-3">
 					<a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary" th:data-uri="@{|/question/vote/${question.id}|}">추천<span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span></a>
+					<a th:href="|javascript:question_comment('${question.id}')|" class="comment btn btn-sm btn-outline-secondary">댓글<span class="badge rounded-pill bg-primary" th:text="${#lists.size(question.commentList)}"></span></a>
 					<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}" th:text="수정"></a>
 					<a href="javascript:void(0)" th:data-uri="@{|/question/delete/${question.id}|}" class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}" th:text="삭제"></a>
 				</div>
+				<!-- 댓글 반복 시작 -->
+				<div class="comment py-2 text-muted" th:each="comment : ${question.commentList}">
+			        <span class="card-body">
+			            <span class="comment-content" style="white-space: pre-line;" th:text="${comment.content}"></span>
+			            <span class="d-flex justify-content-end">
+				            <span th:if="${comment.author != null}" th:text="${comment.author.username}"></span> &nbsp;님
+			                &nbsp;|&nbsp; <span th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+			                    
+			            </span>
+    					<a th:href="@{|/comment/modify/${comment.id}|}" class="btn btn-sm btn-outline-secondary py-0" sec:authorize="isAuthenticated()" th:if="${comment.author != null and #authentication.getPrincipal().getUsername() == comment.author.username}" th:text="수정"></a>
+						<a href="javascript:void(0)" th:data-uri="@{|/comment/delete/${comment.id}|}" class="delete btn btn-sm btn-outline-secondary py-0" sec:authorize="isAuthenticated()" th:if="${comment.author != null and #authentication.getPrincipal().getUsername() == comment.author.username}" th:text="삭제"></a>
+			        </span>
+			    </div>
+				<!-- 댓글작성 폼 시작-->
+				<div class="my-2" id="question_comment_area" style="display: none;">
+				    <form th:action="@{|/comment/create/question/${question.id}|}" th:object="${commentForm}" method="post" class="my-2">
+				    	<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}"></div>
+				        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" rows="3" class="form-control"></textarea>
+				        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" rows="3" class="form-control"></textarea>
+				        <input type="submit" value="댓글등록" class="btn btn-sm btn-secondary py-0" style="font-size: 0.7em;">
+				    </form>
+				</div>
+				<!--댓글작성 폼 끝 -->
 			</div>
 		</div>
 		<!-- 답변의 갯수 표시 -->
@@ -45,9 +69,32 @@
 				</div>
 				<div class="my-3">
 					<a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary" th:data-uri="@{|/answer/vote/${answer.id}|}">추천<span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span></a>
+					<a th:href="|javascript:answer_comment('${answer.id}')|" class="comment btn btn-sm btn-outline-secondary">댓글<span class="badge rounded-pill bg-primary" th:text="${#lists.size(answer.commentList)}"></span></a>
 					<a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()" th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}" th:text="수정"></a>
 					<a href="javascript:void(0)" th:data-uri="@{|/answer/delete/${answer.id}|}" class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()" th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}" th:text="삭제"></a>
 				</div>
+				<!-- 답변의 댓글 반복 시작 -->
+				<div class="comment py-2 text-muted" th:each="comment : ${answer.commentList}">
+			        <span class="card-body">
+			            <span class="comment-content" style="white-space: pre-line;" th:text="${comment.content}"></span>
+			            <span class="d-flex justify-content-end">
+				            <span th:if="${comment.author != null}" th:text="${comment.author.username}"></span> &nbsp;님
+			                &nbsp;|&nbsp; <span th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+			                    
+			            </span>
+    					<a th:href="@{|/comment/modify/${comment.id}|}" class="btn btn-sm btn-outline-secondary py-0" sec:authorize="isAuthenticated()" th:if="${comment.author != null and #authentication.getPrincipal().getUsername() == comment.author.username}" th:text="수정"></a>
+						<a href="javascript:void(0)" th:data-uri="@{|/comment/delete/${comment.id}|}" class="delete btn btn-sm btn-outline-secondary py-0" sec:authorize="isAuthenticated()" th:if="${comment.author != null and #authentication.getPrincipal().getUsername() == comment.author.username}" th:text="삭제"></a>
+			        </span>
+			    </div>
+				<!-- 답변의 댓글작성 폼 시작-->
+				<div class="my-2" id="answer_comment_area" style="display: none;">
+				    <form th:action="@{|/comment/create/answer/${answer.id}|}" method="post" class="my-2">
+				        <textarea name="content" id="content" sec:authorize="isAnonymous()" disabled rows="3" class="form-control"></textarea>
+				        <textarea name="content" id="content" sec:authorize="isAuthenticated()" rows="3" class="form-control"></textarea>
+				        <input type="submit" value="댓글등록" class="btn btn-sm btn-secondary py-0" style="font-size: 0.7em;">
+				    </form>
+				</div>
+				<!--댓글작성 폼 끝 -->
 			</div>
 		</div>
 		<!-- 답변 반복 끝 -->
@@ -110,5 +157,22 @@
 			};
 		});
 	});
+	
+	function question_comment(question_id){
+		if($('#question_comment_area').css('display') == 'none') {
+			$('#question_comment_area').show();
+		} else {
+			$('#question_comment_area').hide();
+		}
+    }
+    
+	function answer_comment(answer_id){
+		if($('#answer_comment_area').css('display') == 'none') {
+			$('#answer_comment_area').show();
+		} else {
+			$('#answer_comment_area').hide();
+		}
+    }
+
 	</script>
 </html>
